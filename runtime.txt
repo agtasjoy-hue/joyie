@@ -1,1 +1,180 @@
-python-3.12.0
+from flask import Flask, jsonify, render_template_string
+
+app = Flask(__name__)
+
+# 🌸 Interactive and beautifully styled homepage
+home_html = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌸 Flask API Dashboard - Cutiee Joyiee 🌸</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #ffb6c1, #ffc0cb, #ff69b4);
+      background-size: 300% 300%;
+      animation: gradientShift 10s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 40px 50px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 480px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: #ff1493;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.05em;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+      background: white;
+      color: #ff1493;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    .info-card {
+      margin-top: 25px;
+      display: none;
+      background: #fff0f5;
+      border: 2px solid #ff69b4;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: left;
+      font-size: 0.95em;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .info-card h3 {
+      color: #ff1493;
+      margin-top: 0;
+      border-bottom: 1px solid #ffc0cb;
+      padding-bottom: 5px;
+    }
+
+    .info-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .info-card li {
+      margin: 8px 0;
+      color: #444;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Flask API Dashboard ✨</h1>
+    <p>Welcome, Cutiee Joyiee! View your student information below 💕</p>
+    <button onclick="showInfo()">🎀 Show Student Info</button>
+
+    <div id="infoCard" class="info-card"></div>
+
+    <footer>Made with 💖 using Flask & Python 3.12</footer>
+  </div>
+
+  <script>
+    async function showInfo() {
+      const card = document.getElementById('infoCard');
+      card.style.display = 'block';
+      card.innerHTML = '<em>Loading info... ⏳</em>';
+
+      try {
+        const res = await fetch('/student');
+        const data = await res.json();
+        card.innerHTML = `
+          <h3>🎓 Student Details</h3>
+          <ul>
+            <li><strong>Name:</strong> ${data.name}</li>
+            <li><strong>Grade:</strong> ${data.grade}</li>
+            <li><strong>Section:</strong> ${data.section}</li>
+            <li><strong>Interests:</strong> ${data.interests.join(', ')}</li>
+            <li><strong>Goal:</strong> ${data.goal}</li>
+          </ul>
+        `;
+      } catch (err) {
+        card.innerHTML = '<strong style="color:red;">Error fetching data ❌</strong>';
+      }
+    }
+  </script>
+</body>
+</html>
+"""
+
+@app.route('/')
+def home():
+    return render_template_string(home_html)
+
+@app.route('/student')
+def get_student():
+    # 💫 Enhanced API content with personality
+    return jsonify({
+        "name": "Cutiee Joyiee 🌸",
+        "grade": 10,
+        "section": "Zechariah",
+        "interests": ["Coding 💻", "Design 🎨", "Music 🎶", "AI 💡"],
+        "goal": "To create meaningful, creative, and inspiring tech projects ✨",
+        "motto": "Dream in pink, code in passion 💕"
+    })
+
+if __name__ == "__main__":
+    # Runs perfectly on Python 3.12
+    app.run(debug=True)
