@@ -8,7 +8,7 @@ home_html = """
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🌸 My Lovely Flask API Dashboard 🌸</title>
+  <title>🌸Flask API Dashboard 🌸</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
