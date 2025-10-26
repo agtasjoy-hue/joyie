@@ -1,69 +1,123 @@
-from flask import Flask, jsonify, request, render_template_string
+from flask import Flask, jsonify, render_template_string
 
 app = Flask(__name__)
 
-# Beautiful home page template
+# ✨ Beautiful interactive homepage with dynamic content
 home_html = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🌸 Welcome to My Flask API 🌸</title>
+  <title>🌸 My Lovely Flask API Dashboard 🌸</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ff69b4);
-      color: #333;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
       margin: 0;
+      overflow: hidden;
     }
-    h1 {
-      background: white;
-      padding: 20px 40px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      font-size: 2em;
-      color: #ff1493;
+
+    .container {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 25px;
+      padding: 40px 60px;
       text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: fadeIn 1.2s ease-in-out;
+      max-width: 500px;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: #ff1493;
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+
     p {
-      font-size: 1.2em;
-      margin-top: 15px;
-      color: #444;
+      color: #555;
+      font-size: 1.1em;
+      margin-bottom: 25px;
     }
-    a {
-      margin-top: 25px;
-      display: inline-block;
+
+    button {
       background: #ff1493;
       color: white;
-      text-decoration: none;
-      padding: 10px 25px;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1em;
       border-radius: 30px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    a:hover {
+
+    button:hover {
       background: white;
       color: #ff1493;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
     }
+
+    .data-box {
+      margin-top: 25px;
+      background: #fff0f5;
+      border: 2px solid #ff69b4;
+      border-radius: 15px;
+      padding: 15px;
+      font-family: monospace;
+      text-align: left;
+      color: #333;
+      display: none;
+      animation: fadeIn 0.8s ease;
+    }
+
     footer {
-      position: absolute;
-      bottom: 20px;
+      margin-top: 25px;
+      color: #666;
       font-size: 0.9em;
-      color: #555;
     }
   </style>
 </head>
 <body>
-  <h1>✨ Welcome to My Flask API ✨</h1>
-  <p>Use the endpoint below to view student details:</p>
-  <a href="/student">➡️ View Student JSON</a>
-  <footer>Created with 💖 using Flask</footer>
+  <div class="container">
+    <h1>✨ Welcome to My Flask API ✨</h1>
+    <p>Explore student data through an elegant API experience 💕</p>
+    <button onclick="fetchData()">View Student Info</button>
+
+    <div id="dataBox" class="data-box"></div>
+
+    <footer>Created with 💖 using Flask & JavaScript</footer>
+  </div>
+
+  <script>
+    async function fetchData() {
+      const box = document.getElementById('dataBox');
+      box.style.display = 'block';
+      box.innerHTML = 'Loading... ⏳';
+      try {
+        const res = await fetch('/student');
+        const data = await res.json();
+        box.innerHTML = JSON.stringify(data, null, 2);
+      } catch (err) {
+        box.innerHTML = 'Error fetching data ❌';
+      }
+    }
+  </script>
 </body>
 </html>
 """
@@ -75,9 +129,11 @@ def home():
 @app.route('/student')
 def get_student():
     return jsonify({
-        "name": "Your Name",
+        "name": "Cutiee Joyiee 🌸",
         "grade": 10,
-        "section": "Zechariah"
+        "section": "Zechariah",
+        "interests": ["Coding 💻", "Design 🎨", "Music 🎶"],
+        "goal": "To build creative and inspiring tech projects ✨"
     })
 
 if __name__ == '__main__':
